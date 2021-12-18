@@ -2299,6 +2299,47 @@ Function RemoveENKeyboard {
 	Set-WinUserLanguageList ($langs | Where-Object {$_.LanguageTag -ne "en-US"}) -Force
 }
 
+# Add the United-States International keyboard layout
+Function AddUSInternationalKeyboard {
+    Write-Output "Adding the United-States International keyboard layout..."
+    $ll = Get-WinUserLanguageList
+
+    $edited_ll = New-Object $ll.GetType() $ll.Count
+    $ll | ForEach-Object {
+        if ($_.LanguageTag -eq 'en-US') {
+            $_.InputMethodTips.Add('0409:00020409') *>&1 > $null
+        }
+        $edited_ll.Add($_)
+    }
+    $ll = $edited_ll
+
+    Set-WinUserLanguageList $ll -Force
+}
+
+# Remove the United-States International keyboard layout
+Function RemoveUSInternationalKeyboard {
+    Write-Output "Removing the United-States International keyboard layout..."
+
+    Write-Output "- there is some bug in Windows 10 (at least as of version 21H1) which requires, "
+    Write-Output "  in order to successfully fix the list of keyboard layouts in the keyboard switch"
+    Write-Output "  panel, to first add the US International keyboard and then to remove it."
+    AddUSInternationalKeyboard
+    Write-Output "Removing it..."
+
+    $ll = Get-WinUserLanguageList
+
+    $edited_ll = New-Object $ll.GetType() $ll.Count
+    $ll | ForEach-Object {
+        if ($_.LanguageTag -eq 'en-US') {
+            $_.InputMethodTips.Remove('0409:00020409') *>&1 > $null
+        }
+        $edited_ll.Add($_)
+    }
+    $ll = $edited_ll
+
+    Set-WinUserLanguageList $ll -Force
+}
+
 # Enable NumLock after startup
 Function EnableNumlock {
 	Write-Output "Enabling NumLock after startup..."
