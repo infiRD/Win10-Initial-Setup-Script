@@ -53,7 +53,7 @@ DisableUWPBackgroundApps        # EnableUWPBackgroundApps
 
 ### Security Tweaks ###
 # SetUACLow                     # SetUACHigh
-# EnableSharingMappedDrives     # DisableSharingMappedDrives
+EnableSharingMappedDrives       # DisableSharingMappedDrives
 DisableAdminShares              # EnableAdminShares
 # DisableFirewall               # EnableFirewall
 # HideDefenderTrayIcon          # ShowDefenderTrayIcon
