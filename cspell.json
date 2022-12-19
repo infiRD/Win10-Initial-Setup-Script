@@ -1,0 +1,25 @@
+// cSpell Settings
+{
+    // Version of the setting file.  Always 0.2
+    "version": "0.2",
+    // language - current active spelling language
+    "language": "en",
+    // allow words like: errormessage
+    // per-file equivalent: spellchecker: enableCompoundWords
+    "allowCompoundWords": true,
+    // words - list of words to be always considered correct
+    "words": [
+        "antispying",
+        "HKEY",
+        "HKLM",
+        "logname",
+        "LTSB",
+        "LTSC",
+        "myoutput",
+        "mypreset",
+        "mytweaks",
+        "Ninite",
+        "tweakname",
+        "whitespaces"
+    ]
+}
