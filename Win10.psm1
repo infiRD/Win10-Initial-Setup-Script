@@ -2494,6 +2494,25 @@ Function EnableF1HelpKey {
 	Remove-Item "HKCU:\Software\Classes\TypeLib\{8cec5860-07a1-11d9-b15e-000d56bfe6ee}\1.0\0" -Recurse -ErrorAction SilentlyContinue
 }
 
+# Disable 'Choose Backup Options notification'
+Function DisableBackupOptionsNotification {
+	Write-Output "Disabling 'Choose Backup Options' notification..."
+
+	$p = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Notifications\Settings\Windows.SystemToast.BackupReminder"
+	If (!(Test-Path $p)) {
+		New-Item -Path $p -Force | Out-Null
+	}
+	Set-ItemProperty -Path $p -Name "Enabled" -Type "DWord" -Value "0"
+}
+
+Function EnableBackupOptionsNotification {
+	Write-Output "Enabling 'Choose Backup Options' notification..."
+
+	$p = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Notifications\Settings\Windows.SystemToast.BackupReminder"
+	Remove-ItemProperty -Path $p -Name "Enabled" -ErrorAction SilentlyContinue
+}
+
+
 ##########
 #endregion UI Tweaks
 ##########
