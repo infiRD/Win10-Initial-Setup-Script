@@ -159,6 +159,7 @@ RemoveUSInternationalKeyboard      # AddUSInternationalKeyboard
 # DisableChangingSoundScheme       # EnableChangingSoundScheme
 # EnableVerboseStatus              # DisableVerboseStatus
 DisableF1HelpKey                   # EnableF1HelpKey
+DisableMeetNow                     # EnableMeetNow
 DisableBackupOptionsNotification   # EnableBackupOptionsNotification
 
 
