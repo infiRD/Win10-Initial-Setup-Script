@@ -3207,12 +3207,14 @@ Function DisableOneDrive {
 		New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\OneDrive" | Out-Null
 	}
 	Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\OneDrive" -Name "DisableFileSyncNGSC" -Type DWord -Value 1
+	Disable-ScheduledTask (Get-ScheduledTask | Where-Object TaskName -like "*OneDrive Reporting Task*") | Out-Null
 }
 
 # Enable OneDrive
 Function EnableOneDrive {
 	Write-Output "Enabling OneDrive..."
 	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\OneDrive" -Name "DisableFileSyncNGSC" -ErrorAction SilentlyContinue
+	Enable-ScheduledTask (Get-ScheduledTask | Where-Object TaskName -like "*OneDrive Reporting Task*") | Out-Null
 }
 
 # Uninstall OneDrive - Not applicable to Server
