@@ -3532,6 +3532,7 @@ Function DisableXboxFeatures {
 		New-Item -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\GameDVR" | Out-Null
 	}
 	Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\GameDVR" -Name "AllowGameDVR" -Type DWord -Value 0
+	Disable-ScheduledTask (Get-ScheduledTask | Where-Object TaskName -like "*XblGameSaveTask*") | Out-Null
 }
 
 # Enable Xbox features - Not applicable to Server
@@ -3546,6 +3547,7 @@ Function EnableXboxFeatures {
 	Remove-ItemProperty -Path "HKCU:\Software\Microsoft\GameBar" -Name "AutoGameModeEnabled" -ErrorAction SilentlyContinue
 	Set-ItemProperty -Path "HKCU:\System\GameConfigStore" -Name "GameDVR_Enabled" -Type DWord -Value 1
 	Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\GameDVR" -Name "AllowGameDVR" -ErrorAction SilentlyContinue
+	Enable-ScheduledTask (Get-ScheduledTask | Where-Object TaskName -like "*XblGameSaveTask*") | Out-Null
 }
 
 # Disable Fullscreen optimizations
