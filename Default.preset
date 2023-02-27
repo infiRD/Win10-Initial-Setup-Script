@@ -208,6 +208,7 @@ Hide3DObjectsFromThisPC         # Show3DObjectsInThisPC
 # DisableThumbnails             # EnableThumbnails
 DisableThumbnailCache           # EnableThumbnailCache
 DisableThumbsDBOnNetwork        # EnableThumbsDBOnNetwork
+# EnableIconRemotePaths         # DisableIconRemotePaths
 
 ### Application Tweaks ###
 DisableOneDrive                 # EnableOneDrive

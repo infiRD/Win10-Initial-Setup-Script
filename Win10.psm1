@@ -3190,6 +3190,18 @@ Function EnableThumbsDBOnNetwork {
 	Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "DisableThumbsDBOnNetworkFolders" -ErrorAction SilentlyContinue
 }
 
+# Enable remote paths for folder icons specified in Desktop.ini
+Function EnableIconRemotePaths {
+	Write-Output "Enabling remote paths for folder icons..."
+	Set-ItemProperty -Path "HKLM:\Software\Policies\Microsoft\Windows\Explorer\" -Name "EnableShellShortcutIconRemotePath" -Type DWord -Value 1
+}
+
+# Disable remote paths for folder icons specified in Desktop.ini
+Function DisableIconRemotePaths {
+	Write-Output "Disabling remote paths for folder icons..."	
+	Remove-ItemProperty -Path "HKLM:\Software\Policies\Microsoft\Windows\Explorer\" -Name "EnableShellShortcutIconRemotePath" -ErrorAction SilentlyContinue
+}
+
 ##########
 #endregion Explorer UI Tweaks
 ##########
