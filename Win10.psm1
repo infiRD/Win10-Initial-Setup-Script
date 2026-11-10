@@ -3242,9 +3242,26 @@ Function UninstallOneDrive {
 	Start-Sleep -s 2
 	Stop-Process -Name "explorer" -Force -ErrorAction SilentlyContinue
 	Start-Sleep -s 2
-	If ((Get-ChildItem -Path "$env:USERPROFILE\OneDrive" -ErrorAction SilentlyContinue | Measure-Object).Count -eq 0) {
-		Remove-Item -Path "$env:USERPROFILE\OneDrive" -Force -Recurse -ErrorAction SilentlyContinue
+	
+	# Abort if any known folder (Desktop, Documents, Pictures, ...) still points into OneDrive
+	$k = Get-ItemProperty 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders'
+	$redirected = 'Desktop','Personal','My Pictures','My Music','My Video' |
+		Where-Object { $k.$_ -match 'OneDrive' }
+	if ($redirected) {
+		Write-Warning "Known folders still redirected into OneDrive: $($redirected -join ', '). Aborting."
+  	return
 	}
+	
+	# Delete the OneDrive folder only if it is completely empty; any error or content leaves it untouched
+	$odRoot = Join-Path $env:USERPROFILE 'OneDrive'
+	if (Test-Path -LiteralPath $odRoot -PathType Container) {
+		try {
+    	[IO.Directory]::Delete($odRoot, $false)
+  	} catch {
+	    Write-Warning "Leaving '$odRoot' in place: $($_.Exception.Message)"
+  	}
+	}
+	
 	Remove-Item -Path "$env:LOCALAPPDATA\Microsoft\OneDrive" -Force -Recurse -ErrorAction SilentlyContinue
 	Remove-Item -Path "$env:PROGRAMDATA\Microsoft OneDrive" -Force -Recurse -ErrorAction SilentlyContinue
 	Remove-Item -Path "$env:SYSTEMDRIVE\OneDriveTemp" -Force -Recurse -ErrorAction SilentlyContinue
